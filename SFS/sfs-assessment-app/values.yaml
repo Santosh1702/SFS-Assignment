@@ -1,0 +1,47 @@
+# Default values for sfs-assessment-app.
+replicaCount: 2
+
+image:
+  repository: santosh_1988/sfs
+  pullPolicy: IfNotPresent
+  tag: "0.0.1-SNAPSHOT" # If empty, uses the chart's appVersion (1.0.0)
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8081 # Spring Boot default port
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+# Spring Boot Environment Variables (for application.properties replacement)
+# These are the variables used by the application, including the PlantConfig 
+# and the external API URL [cite: 349-350].
+env:
+  # Database Configuration (Assumes PostgreSQL)
+  SPRING_DATASOURCE_URL: "jdbc:mysql://mysql-svc:3306/sfs"
+  SPRING_DATASOURCE_USERNAME: "root"
+  SPRING_JPA_HIBERNATE_DDL-AUTO: "update" 
+  # SPRING_DATASOURCE_PASSWORD is retrieved from a Secret below
+
+  # Plant Configuration (maps to sfs.plants.list[i].*) 
+  SFS_PLANTS_LIST_0_PLANTKEY: "PL001"
+  SFS_PLANTS_LIST_0_LOCATION: "Moranville"
+  SFS_PLANTS_LIST_1_PLANTKEY: "PL002"
+  SFS_PLANTS_LIST_1_LOCATION: "KruegerSide"
+  SFS_PLANTS_LIST_2_PLANTKEY: "PL003"
+  SFS_PLANTS_LIST_2_LOCATION: "Beverlyview"
+
+  # External Events API Configuration [cite: 349-350]
+  SFS_MOCK-API_BASE-URL: "https://mock-api.assessment.sfsdm.org"
+
+# Secret Management (Database Password)
+secrets:
+  SPRING_DATASOURCE_PASSWORD:
+    secretName: "sfs-db-credentials" # Name of the existing Kubernetes Secret
+    secretKey: "SPRING_DATASOURCE_PASSWORD"         # Key within that Secret (e.g., 'db-password')
