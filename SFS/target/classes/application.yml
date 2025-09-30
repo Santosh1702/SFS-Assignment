@@ -1,0 +1,32 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: SFS
+  datasource:
+    url: jdbc:mysql://localhost:3306/sfs
+    username: root
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+sfs:
+  mock-api:
+    base-url: https://mock-api.assessment.sfsdm.org
+
+  # Configuration for the PlantService
+  plants:
+    list:
+      - plantKey: PL001
+        location: Moranville
+      - plantKey: PL002
+        location: KruegerSide
+      - plantKey: PL003
+        location: Beverlyview
+
+
+
+
+
+

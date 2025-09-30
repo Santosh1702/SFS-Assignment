@@ -1,0 +1,4 @@
+com\sfs\service\EmployeeServiceTest.class
+com\sfs\service\AbstractServiceTest.class
+com\sfs\service\GroupServiceTest.class
+com\sfs\SfsApplicationTests.class
